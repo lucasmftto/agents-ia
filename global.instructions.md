@@ -153,8 +153,8 @@ class MyControllerTest {
                 .andExpect(status().isOk());
 
         // Validação real
-        ConsolidatedFinancialClosing entity = repository.findById("194881").orElseThrow();
-        assertThat(entity.getClosings()).isNotEmpty();
+        ConsolidatedEntity entity = repository.findById("194881").orElseThrow();
+        assertThat(entity.getTests()).isNotEmpty();
     }
 }
 
@@ -190,10 +190,10 @@ class MyServiceTest {
     private MyService service;
 
     @MockBean
-    private ImpIntegrationFeignClient impIntegrationFeignClient;
+    private MyIntegrationFeignClient myIntegrationFeignClient;
 
     @MockBean
-    private ConexosServiceFeignClient conexosServiceFeignClient;
+    private erpServiceFeignClient erpServiceFeignClient;
 
     @BeforeEach
     void before() {
@@ -202,20 +202,20 @@ class MyServiceTest {
 
     @AfterEach
     void after() {
-        verifyNoExpenseDuplicates();
-        verifyNoHistoryDuplicates();
+        verifyNoDuplicates();
+        verifyNoDuplicates();
     }
 
     @Test
-    void shouldSaveHandlingAndChangeStatus() {
-        ConsolidatedFinancialClosing processClosing = new ConsolidatedFinancialClosing();
-        processClosing.setImpNumber("194881");
-        repository.save(processClosing);
+    void shouldSaveTestAndChangeStatus() {
+        ConsolidatedEntity entity = new ConsolidatedEntity();
+        entity.setImpNumber("194881");
+        repository.save(entity);
 
-        service.setDifferenceHandlings(...);
+        service.setmyTest(...);
 
-        ConsolidatedFinancialClosing saved = repository.findById("194881").orElseThrow();
-        assertThat(saved.getStatus()).isEqualTo(ProcessStatus.WAITING_ANALYSIS);
+        ConsolidatedEntity saved = repository.findById("194881").orElseThrow();
+        assertThat(saved.getStatus()).isEqualTo(ProcessStatus.MY_ANALYSIS);
     }
 }
 
